@@ -55,15 +55,17 @@ docker compose version
 echo
 echo "=== Копирование 'docker-compose.yml' в каталог пользователя '$proj_user' ==="
 
-git clone https://github.com/Marat2010/Aiogram3
+git clone https://github.com/Marat2010/PostgreSQL_VPS
 #==========================
 
 #Запуск:
 echo "=== Установка и запуск контейнеров: postgres, adminer, pgadmin ==="
-cd ~/
+cd PostgreSQL_VPS
 docker compose up -d
 #==========================
-
+echo "=== Установка ЗАВЕРШЕНА! ==="
+echo "=== PgAdmin по адресу: https://IP:50050 ==="
+echo "=== Adminer по адресу: https://IP:80080 ==="
 #-----------------
 #Остановка:
 #    docker-compose down 

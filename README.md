@@ -1,6 +1,4 @@
-# Postgresql & PgAdmin & Adminer & docker compose & VPS
-
-## Установка Postgresql & PgAdmin & Adminer через docker compose на VPS 
+## Postgresql, PgAdmin, Adminer, Docker compose, VPS 
 
 ### Описание
 Установка Postgresql & PgAdmin & Adminer через docker compose на VPS/VDS.  
@@ -10,7 +8,7 @@
 
 2. Скачиваем первый скрипт, выполним команду:  
     ```
-    wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/1_start.sh
+    wget https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/master/1_postgres.sh
     ```
 
 3. Делаем скрипт исполняемым:  
