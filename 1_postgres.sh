@@ -61,13 +61,16 @@ cd PostgreSQL_VPS
 docker compose up -d
 #==========================
 echo "=== Установка ЗАВЕРШЕНА! ==="
-echo "=== PgAdmin по адресу: https://IP:50050 ==="
-echo "=== Adminer по адресу: https://IP:80080 ==="
+echo "=== Запущенные контейнеры: ==="
+docker ps -a
+
+ip_addr=`wget -q -4 -O- http://icanhazip.com`
+echo "=== PgAdmin по адресу: https://$ip_addr:55050 ==="
+echo "=== Adminer по адресу: https://$ip_addr:58080 ==="
 
 #==========================
+echo "=== Вход под пользователем '$your_user' ==="
 cd /home/$your_user && su $your_user
-
-docker ps -a
 
 #-----------------
 #Остановка:

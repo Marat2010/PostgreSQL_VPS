@@ -26,7 +26,7 @@ services:
     depends_on: 
       - postgres
     ports:
-      - 9080:8080
+      - 58080:8080
 
   pgadmin:
     container_name: pgadmin_cont
@@ -39,7 +39,7 @@ services:
        - pgadmin:/var/lib/pgadmin
 
     ports:
-      - "${PGADMIN_PORT:-50050}:80"
+      - "${PGADMIN_PORT:-55050}:80"
     restart: unless-stopped
 
 volumes:
