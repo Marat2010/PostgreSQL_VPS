@@ -1,0 +1,48 @@
+# https://github.com/khezen/compose-postgres
+version: '3.5'
+
+services:
+
+  postgres:
+    container_name: postgres_cont
+    image: postgres
+#    image: postgres:12.6-alpine
+
+    environment:
+      POSTGRES_PASSWORD: 1
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+#    restart: always
+
+  adminer:
+    container_name: adminer_cont
+    image: adminer
+    restart: always
+    depends_on: 
+      - postgres
+    ports:
+      - 80080:8080
+
+  pgadmin:
+    container_name: pgadmin_cont
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - pgadmin:/var/lib/pgadmin
+
+    ports:
+      - "${PGADMIN_PORT:-50050}:80"
+    restart: unless-stopped
+
+volumes:
+    postgres:
+    pgadmin:
+
