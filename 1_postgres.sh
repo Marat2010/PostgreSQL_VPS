@@ -21,9 +21,6 @@ echo "=== Пользователь '$your_user' в группе 'sudo' ==="
 
 #==========================
 
-su $your_user
-cd ~
-
 # === Install Docker: https://docs.docker.com/engine/install/ubuntu/ ===
 
 # Add Docker's official GPG key:
@@ -53,7 +50,7 @@ echo "=== Версия Docker compose: ==="
 docker compose version
 #==========================
 echo
-echo "=== Копирование 'docker-compose.yml' в каталог пользователя '$proj_user' ==="
+echo "=== Копирование 'docker-compose.yml' в каталог пользователя '$your_user' ==="
 
 git clone https://github.com/Marat2010/PostgreSQL_VPS
 #==========================
@@ -66,6 +63,12 @@ docker compose up -d
 echo "=== Установка ЗАВЕРШЕНА! ==="
 echo "=== PgAdmin по адресу: https://IP:50050 ==="
 echo "=== Adminer по адресу: https://IP:80080 ==="
+
+#==========================
+cd /home/$your_user && su $your_user
+
+docker ps -a
+
 #-----------------
 #Остановка:
 #    docker-compose down 
