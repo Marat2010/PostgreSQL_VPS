@@ -41,7 +41,7 @@ sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plug
 
 #==========================
 #sudo usermod -aG docker $USER
-sudo usermod -aG docker $USER
+sudo usermod -aG docker $your_user
 echo "=== Пользователь '$your_user' в группе 'docker' ==="
 #==========================
 echo "=== Версия Docker: ==="
