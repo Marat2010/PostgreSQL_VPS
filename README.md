@@ -30,14 +30,14 @@
 <hr>
 
 Проверка:  
-* PgAdmin по адресу: `http://_IP_Addr_:**55050**`  
+* PgAdmin по адресу: `http://_IP_Addr_:`**`55050`**  
 * Adminer по адресу: `http://_IP_Addr_:`**`58080`**  
 
 <hr>
 
 Сделано на базе <a href='https://github.com/khezen/compose-postgres'>Compose-postgres</a> + добавлен <a href='https://hub.docker.com/_/adminer'>Adminer</a>
 
-## Environments
+### Environments
 This Compose file contains the following environment variables:
 
 * `POSTGRES_USER` the default value is **postgres**
@@ -46,27 +46,27 @@ This Compose file contains the following environment variables:
 * `PGADMIN_DEFAULT_EMAIL` the default value is **pgadmin4@pgadmin.org**
 * `PGADMIN_DEFAULT_PASSWORD` the default value is **admin**
 
-## Access to postgres: 
+### Access to postgres: 
 * **Host name/address:port:** `_IP_Addr_:5432`
-* **Username:** postgres (as a default)
-* **Password:** changeme (as a default)
+* **Username:** `postgres` (as a default)
+* **Password:** `changeme` (as a default)
 
-## Access to PgAdmin: 
+### Access to PgAdmin: 
 * **URL:** `http://_IP_Addr_:55050`
 * **Username:** pgadmin4@pgadmin.org (as a default)
-* **Password:** admin (as a default)
+* **Password:** `admin` (as a default)
 
-## Add a new server in PgAdmin:
+### Add a new server in PgAdmin:
 * **Host name/address** `_IP_Addr_`
 * **Port** `5432`
 * **Username** as `POSTGRES_USER`, by default: `postgres`
 * **Password** as `POSTGRES_PASSWORD`, by default `changeme`
 
-## Access to Adminer: 
+### Access to Adminer: 
 * **URL:** `http://_IP_Addr_:58080`
 * **System:** `PostgreSQL`
 * **Server:** `_IP_Addr_`
-* **Username:** postgres (as a default)
-* **Password:** changeme (as a default)
+* **Username:** `postgres` (as a default)
+* **Password:** `changeme` (as a default)
 <hr>
 
