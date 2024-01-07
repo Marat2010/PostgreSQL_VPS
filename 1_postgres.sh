@@ -15,13 +15,12 @@ fi
 echo
 read -p "=== Введите имя пользователя: " your_user
 adduser --gecos "" $your_user
-
+echo
 usermod -aG sudo $your_user
 echo "=== Пользователь '$your_user' в группе 'sudo' ==="
 
-#==========================
-
-# === Install Docker: https://docs.docker.com/engine/install/ubuntu/ ===
+# === Инструкция Install Docker: https://docs.docker.com/engine/install/ubuntu/ ===
+echo "=== Установка Docker, Docker-compose ==="
 
 # Add Docker's official GPG key:
 sudo apt-get update
@@ -40,26 +39,28 @@ sudo apt-get update
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 #==========================
-#sudo usermod -aG docker $USER
+echo
 sudo usermod -aG docker $your_user
 echo "=== Пользователь '$your_user' в группе 'docker' ==="
 #==========================
+echo
 echo "=== Версия Docker: ==="
 docker -v
+echo
 echo "=== Версия Docker compose: ==="
 docker compose version
 #==========================
 echo
 echo "=== Копирование 'docker-compose.yml' в каталог пользователя '$your_user' ==="
-
 git clone https://github.com/Marat2010/PostgreSQL_VPS
-#==========================
 
-#Запуск:
+#==========================
+echo
 echo "=== Установка и запуск контейнеров: postgres, adminer, pgadmin ==="
 cd PostgreSQL_VPS
 docker compose up -d
 #==========================
+echo
 echo "=== Установка ЗАВЕРШЕНА! ==="
 echo "=== Запущенные контейнеры: ==="
 docker ps -a
@@ -69,10 +70,11 @@ echo "=== PgAdmin по адресу: http://$ip_addr:55050 ==="
 echo "=== Adminer по адресу: http://$ip_addr:58080 ==="
 
 #==========================
+echo
 echo "=== Вход под пользователем '$your_user' ==="
 cd /home/$your_user && su $your_user
 
-#-----------------
+#===========================
 #Остановка:
 #    docker-compose down 
 #или так для удаления томов (БД почистятся):
