@@ -5,42 +5,55 @@ services:
 
   postgres:
     container_name: postgres_cont
-    image: postgres
+#    image: postgres
 #    image: postgres:12.6-alpine
+    image: postgres:16.1-alpine
 
     environment:
-      POSTGRES_PASSWORD: 1
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
     ports:
       - "5432:5432"
+    networks:
+      - net_postgres
     restart: unless-stopped
-#    restart: always
 
   adminer:
     container_name: adminer_cont
-    image: adminer
-    restart: always
+#    image: adminer
+    image: adminer:4.8.0-standalone
     depends_on: 
       - postgres
     ports:
       - 58080:8080
+    networks:
+      - net_postgres
+    restart: unless-stopped
 
   pgadmin:
     container_name: pgadmin_cont
-    image: dpage/pgadmin4
+#    image: dpage/pgadmin4
+    image: dpage/pgadmin4:3.0
+#    image: dpage/pgadmin4:8.1
+
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
        - pgadmin:/var/lib/pgadmin
-
     ports:
       - "${PGADMIN_PORT:-55050}:80"
+    networks:
+      - net_postgres
     restart: unless-stopped
+
+networks:
+  net_postgres:
+    driver: bridge
 
 volumes:
     postgres:

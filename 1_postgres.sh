@@ -63,10 +63,10 @@ docker compose up -d
 echo "=== Установка ЗАВЕРШЕНА! ==="
 echo "=== Запущенные контейнеры: ==="
 docker ps -a
-
+echo
 ip_addr=`wget -q -4 -O- http://icanhazip.com`
-echo "=== PgAdmin по адресу: https://$ip_addr:55050 ==="
-echo "=== Adminer по адресу: https://$ip_addr:58080 ==="
+echo "=== PgAdmin по адресу: http://$ip_addr:55050 ==="
+echo "=== Adminer по адресу: http://$ip_addr:58080 ==="
 
 #==========================
 echo "=== Вход под пользователем '$your_user' ==="
