@@ -13,12 +13,12 @@
 
 3. Делаем скрипт исполняемым:  
    ```
-   chmod +x 1_start.sh
+   chmod +x 1_postgres.sh
     ```
 
 4. Запускаем скрипт (под root-ом):  
     ```
-    ./1_start.sh
+    ./1_postgres.sh
     ```
 
     - Смена пароля "root"
@@ -29,8 +29,8 @@
 
 <hr>
 Проверка:
-    PgAdmin по адресу: http://$ip_addr:55050  
-    Adminer по адресу: http://$ip_addr:58080
+    - PgAdmin по адресу: http://$ip_addr:55050   
+    - Adminer по адресу: http://$ip_addr:58080
 <hr>
 
 Сделано на базе <a href='https://github.com/khezen/compose-postgres'>Compose-postgres</a> + добавлен <a href='https://hub.docker.com/_/adminer'>Adminer</a>
