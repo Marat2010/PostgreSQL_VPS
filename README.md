@@ -31,7 +31,7 @@
 
 Проверка:  
 * PgAdmin по адресу: `http://_IP_Addr_:**55050**`  
-* Adminer по адресу: `http://_IP_Addr_:`**58080**  
+* Adminer по адресу: `http://_IP_Addr_:`**`58080`**  
 
 <hr>
 
