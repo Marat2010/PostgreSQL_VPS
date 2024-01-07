@@ -66,7 +66,7 @@ This Compose file contains the following environment variables:
 * **URL:** `http://_IP_Addr_:58080`
 * **System:** `PostgreSQL`
 * **Server:** `_IP_Addr_`
-* **Username:** `postgres` (as a default)
-* **Password:** `changeme` (as a default)
+* **Username** as `POSTGRES_USER`, by default: `postgres`
+* **Password** as `POSTGRES_PASSWORD`, by default `changeme`
 <hr>
 
