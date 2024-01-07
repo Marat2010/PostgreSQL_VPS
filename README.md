@@ -4,7 +4,7 @@
 Установка Postgresql & PgAdmin & Adminer через docker compose на VPS/VDS.  
 Проверено на ОС серверов Timeweb, Рег.ру:  Ubuntu 20.04, Ubuntu 22.04.
 
-1. Подключаемся к серверу `ssh root@xxx.xxx.xxx.xxx` и выполняем последовательно команды.    
+1. Подключаемся к серверу `ssh root@xxx.xxx.xxx.xxx (_IP_Addr_)` и выполняем последовательно команды.    
 
 2. Скачиваем первый скрипт, выполним команду:  
     ```
@@ -30,8 +30,8 @@
 <hr>
 
 Проверка:  
-* PgAdmin по адресу: http://_IP_Addr_:**55050**  
-* Adminer по адресу: http://_IP_Addr_:**58080**  
+* PgAdmin по адресу: `http://_IP_Addr_:**55050**`  
+* Adminer по адресу: `http://_IP_Addr_:`**58080**  
 
 <hr>
 
@@ -47,7 +47,7 @@ This Compose file contains the following environment variables:
 * `PGADMIN_DEFAULT_PASSWORD` the default value is **admin**
 
 ## Access to postgres: 
-* * **Host name/address:port:** `_IP_Addr_:5432`
+* **Host name/address:port:** `_IP_Addr_:5432`
 * **Username:** postgres (as a default)
 * **Password:** changeme (as a default)
 
