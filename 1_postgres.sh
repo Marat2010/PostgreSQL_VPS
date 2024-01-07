@@ -55,8 +55,9 @@ echo "=== Копирование 'docker-compose.yml' ==="
 git clone https://github.com/Marat2010/PostgreSQL_VPS
 
 #==========================
+# === Инструкция Postgresql & PgAdmin powered by compose: https://github.com/khezen/compose-postgres ===
 echo
-echo "=== Установка и запуск контейнеров: postgres, adminer, pgadmin ==="
+echo "=== Установка и запуск контейнеров: postgres, pgadmin, adminer ==="
 cd PostgreSQL_VPS
 docker compose up -d
 #==========================
