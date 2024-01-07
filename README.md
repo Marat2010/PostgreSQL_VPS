@@ -29,7 +29,7 @@
 
 <hr>
 Проверка:
-    PgAdmin по адресу: http://$ip_addr:55050
+    PgAdmin по адресу: http://$ip_addr:55050  
     Adminer по адресу: http://$ip_addr:58080
 <hr>
 
