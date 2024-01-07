@@ -51,7 +51,7 @@ echo "=== Версия Docker compose: ==="
 docker compose version
 #==========================
 echo
-echo "=== Копирование 'docker-compose.yml' в каталог пользователя '$your_user' ==="
+echo "=== Копирование 'docker-compose.yml' ==="
 git clone https://github.com/Marat2010/PostgreSQL_VPS
 
 #==========================

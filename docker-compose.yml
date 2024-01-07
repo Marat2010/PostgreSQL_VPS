@@ -24,7 +24,7 @@ services:
   adminer:
     container_name: adminer_cont
 #    image: adminer
-    image: adminer:4.8.0-standalone
+    image: adminer:4.8.1-standalone
     depends_on: 
       - postgres
     ports:
@@ -36,8 +36,7 @@ services:
   pgadmin:
     container_name: pgadmin_cont
 #    image: dpage/pgadmin4
-    image: dpage/pgadmin4:3.0
-#    image: dpage/pgadmin4:8.1
+    image: dpage/pgadmin4:8.1
 
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
