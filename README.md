@@ -30,9 +30,8 @@
 <hr>
 
 Проверка:  
-* PgAdmin по адресу: http://$ip_addr**:55050**
-
-* Adminer по адресу: http://$ip_addr**:58080**
+* PgAdmin по адресу: http://$ip_addr:**55050**  
+* Adminer по адресу: http://$ip_addr:**58080**  
 
 <hr>
 
@@ -64,6 +63,7 @@ This Compose file contains the following environment variables:
 * **Password** as `POSTGRES_PASSWORD`, by default `changeme`
 
 ## Access to Adminer: 
+* **URL:** `http://$ip_addr:58080`
 * **System:** `PostgreSQL`
 * **Server:** `$ip_addr`
 * **Username:** postgres (as a default)
