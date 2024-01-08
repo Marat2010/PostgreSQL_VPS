@@ -53,7 +53,7 @@ docker compose version
 echo
 echo "=== Копирование 'docker-compose.yml' ==="
 git clone https://github.com/Marat2010/PostgreSQL_VPS
-mv -R PostgreSQL_VPS /home/$your_user/
+mv PostgreSQL_VPS /home/$your_user/
 chown -R $your_user:$your_user /home/$your_user/PostgreSQL_VPS
 
 #==========================
