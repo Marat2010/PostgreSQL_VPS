@@ -30,8 +30,8 @@
 <hr>
 
 Проверка:  
-* PgAdmin по адресу: `http://_IP_Addr_:`**`55050`**  
-* Adminer по адресу: `http://_IP_Addr_:`**`58080`**  
+* PgAdmin по адресу: `http://_IP_Addr_:`**`5050`**  
+* Adminer по адресу: `http://_IP_Addr_:`**`8080`**  
 
 <hr>
 
@@ -42,7 +42,7 @@ This Compose file contains the following environment variables:
 
 * `POSTGRES_USER` the default value is **postgres**
 * `POSTGRES_PASSWORD` the default value is **changeme**
-* `PGADMIN_PORT` the default value is **55050**
+* `PGADMIN_PORT` the default value is **5050**
 * `PGADMIN_DEFAULT_EMAIL` the default value is **pgadmin4@pgadmin.org**
 * `PGADMIN_DEFAULT_PASSWORD` the default value is **admin**
 
@@ -52,7 +52,7 @@ This Compose file contains the following environment variables:
 * **Password:** `changeme` (as a default)
 
 ### Access to PgAdmin: 
-* **URL:** `http://_IP_Addr_:55050`
+* **URL:** `http://_IP_Addr_:5050`
 * **Username:** pgadmin4@pgadmin.org (as a default)
 * **Password:** `admin` (as a default)
 
@@ -63,7 +63,7 @@ This Compose file contains the following environment variables:
 * **Password** as `POSTGRES_PASSWORD`, by default `changeme`
 
 ### Access to Adminer: 
-* **URL:** `http://_IP_Addr_:58080`
+* **URL:** `http://_IP_Addr_:8080`
 * **System:** `PostgreSQL`
 * **Server:** `_IP_Addr_`
 * **Username** as `POSTGRES_USER`, by default: `postgres`

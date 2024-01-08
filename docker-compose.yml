@@ -15,7 +15,8 @@ services:
     volumes:
       - postgres:/data/postgres
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
+#      - "5433:5432"
     networks:
       - net_postgres
     restart: unless-stopped
@@ -27,7 +28,7 @@ services:
     depends_on: 
       - postgres
     ports:
-      - 58080:8080
+      - "${ADMINER_PORT:-8080}:8080"
     networks:
       - net_postgres
     restart: unless-stopped
@@ -43,7 +44,7 @@ services:
     volumes:
        - pgadmin:/var/lib/pgadmin
     ports:
-      - "${PGADMIN_PORT:-55050}:80"
+      - "${PGADMIN_PORT:-5050}:80"
     networks:
       - net_postgres
     restart: unless-stopped

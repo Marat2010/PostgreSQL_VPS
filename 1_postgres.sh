@@ -53,35 +53,60 @@ docker compose version
 echo
 echo "=== Копирование 'docker-compose.yml' ==="
 git clone https://github.com/Marat2010/PostgreSQL_VPS
+mv -R PostgreSQL_VPS /home/$your_user/
+chown -R $your_user:$your_user /home/$your_user/PostgreSQL_VPS
 
 #==========================
 # === Инструкция Postgresql & PgAdmin powered by compose: https://github.com/khezen/compose-postgres ===
 echo
 echo "=== Установка и запуск контейнеров: postgres, pgadmin, adminer ==="
-cd PostgreSQL_VPS
-docker compose up -d
+sudo -u $your_user bash -c "cd /home/$your_user/PostgreSQL_VPS && docker compose up -d"
 #==========================
 echo
 echo "=== Установка ЗАВЕРШЕНА! ==="
 echo "=== Запущенные контейнеры: ==="
 docker ps -a
-echo
-ip_addr=`wget -q -4 -O- http://icanhazip.com`
-echo "=== PgAdmin по адресу: http://$ip_addr:55050 ==="
-echo "=== Adminer по адресу: http://$ip_addr:58080 ==="
 
-#==========================
+ip_addr=`wget -q -4 -O- http://icanhazip.com`
+echo
+echo "=============================================================="
+echo "===       PgAdmin по адресу: http://$ip_addr:5050          ==="
+echo "===         Add a new server in PgAdmin:                   ==="
+echo "=== Host name/address $ip_addr                             ==="
+echo "=== Port as `POSTGRES_PORT`, by default: `5432`            ==="
+echo "=== Username as `POSTGRES_USER`, by default: `postgres`    ==="
+echo "=== Password as `POSTGRES_PASSWORD`, by default `changeme` ==="
+echo "===    ==="
+echo "=============================================================="
+echo "===       Adminer по адресу: http://$ip_addr:8080          ==="
+echo "=== System: `PostgreSQL`                                   ==="
+echo "=== Server: $ip_addr                                       ==="
+echo "=== Username as `POSTGRES_USER`, by default: `postgres`    ==="
+echo "=== Password as `POSTGRES_PASSWORD`, by default `changeme` ==="
+echo "=== Database: `postgres` или пусто                         ==="
+echo "=============================================================="
+
+echo
+echo "======================================================="
+echo "=== Для смены настроек отредактируйте файл:         ==="
+echo "===  '/home/$your_user/PostgreSQL_VPS/.env'         ==="
+echo "=== Остановите все контейнеры:                      ==="
+echo "===   $ docker compose down                         ==="
+echo "=== Перейдите в папку с файлом 'docker-compose.yml' ==="
+echo "=== Запустите контейнеры                            ==="
+echo "===   $ docker compose up -d                        ==="
+echo "======================================================="
 echo
 echo "=== Вход под пользователем '$your_user' ==="
 cd /home/$your_user && su $your_user
 
 #===========================
-#Остановка:
+# Остановка:
 #    docker-compose down 
-#или так для удаления томов (БД почистятся):
+# или так для удаления томов (БД почистятся):
 #    docker-compose down --volumes
 #------------------
-#Почистить volumes:
+# Почистить volumes:
 #    docker volume prune
 #===========================
 
