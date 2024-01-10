@@ -6,26 +6,24 @@
 
   Подключаемся к серверу **`ssh root@xxx.xxx.xxx.xxx (_IP_Addr_)`** и выполняем последовательно команды.    
 
-1. Скачиваем первый скрипт, выполним команду:  
+1. Выполним команду:  
     ```
-    wget -O ./1_postgres.sh https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/master/1_postgres.sh
+    wget -O ./1_postgres.sh https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/master/1_postgres.sh 
+&& chmod +x 1_postgres.sh 
+&& ./1_postgres.sh
     ```
+Команда скопирует скрипт, сделает его исполняемым и запустит.  
 
-2. Делаем скрипт исполняемым:  
-   ```
-   chmod +x 1_postgres.sh
-    ```
+Действия скрипта:
 
-3. Запускаем скрипт (под root-ом):  
-    ```
-    ./1_postgres.sh
-    ```
-
-    - Смена пароля "root"
-    - Создание пользователя.
+    - Смена пароля "root-а"
+    - Настройка, создание пользователя или ввод существующего.
     - Установка пакетов: **docker, docker-compose**
     - Копирование **'docker-compose.yml'** в каталог пользователя
+    - Задает имя пользователя БД (по умолчанию **postgres**)
+    - Задает пароль пользователя БД (по умолчанию **changeme**)
     - Установка и запуск контейнеров: **postgres, adminer, pgadmin**
+    - Формирует данные для подключения к БД для **adminer, pgadmin**
 
 <hr>
 

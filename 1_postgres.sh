@@ -96,14 +96,14 @@ docker ps -a
 ip_addr=`wget -q -4 -O- http://icanhazip.com`
 echo
 echo "=============================================================="
-echo "===       PgAdmin по адресу: http://$ip_addr:5050      "
-echo "===         Add a new server in PgAdmin:                   "
+echo "===    PgAdmin по адресу: http://$ip_addr:5050      "
+echo "===      Add a new server in PgAdmin:                   "
 echo "=== Host name/address: $ip_addr                        "
 echo "=== Port as 'POSTGRES_PORT', by default: '5432'            "
 echo "=== Username as 'POSTGRES_USER' ['postgres' ]: $POSTGRES_USER    "
 echo "=== Password as 'POSTGRES_PASSWORD' ['changeme']: $POSTGRES_PASSWORD "
 echo "=============================================================="
-echo "===       Adminer по адресу: http://$ip_addr:8080      "
+echo "===    Adminer по адресу: http://$ip_addr:8080      "
 echo "=== System: 'PostgreSQL'                                   "
 echo "=== Server: $ip_addr                                   "
 echo "=== Username as 'POSTGRES_USER' ['postgres' ]: $POSTGRES_USER    "
