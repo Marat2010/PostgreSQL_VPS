@@ -61,26 +61,25 @@ cp /home/$your_user/PostgreSQL_VPS/.env_example /home/$your_user/PostgreSQL_VPS/
 
 echo 
 read -p "=== Задать имя пользователя БД [postgres]: " POSTGRES_USER
-if [ ! -z $POSTGRES_USER ]
+if [ -z $POSTGRES_USER ]
 then
-    echo "POSTGRES_USER=$POSTGRES_USER" > /home/$your_user/PostgreSQL_VPS/.env
-else
-    echo "POSTGRES_USER=postgres" > /home/$your_user/PostgreSQL_VPS/.env
+    POSTGRES_USER="postgres"
 fi
 
 echo 
 read -p "=== Задать пароль для БД [changeme]: " POSTGRES_PASSWORD
-if [ ! -z $POSTGRES_PASSWORD ]
+if [ -z $POSTGRES_PASSWORD ]
 then
-    echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> /home/$your_user/PostgreSQL_VPS/.env
-else
-    echo "POSTGRES_PASSWORD=changeme" >> /home/$your_user/PostgreSQL_VPS/.env
+    POSTGRES_PASSWORD="changeme"
 fi
 
+echo "POSTGRES_USER=$POSTGRES_USER" > /home/$your_user/PostgreSQL_VPS/.env
+echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> /home/$your_user/PostgreSQL_VPS/.env
 echo "POSTGRES_PORT=5432" >> /home/$your_user/PostgreSQL_VPS/.env
 echo "ADMINER_PORT=8080" >> /home/$your_user/PostgreSQL_VPS/.env
 echo "PGADMIN_PORT=5050" >> /home/$your_user/PostgreSQL_VPS/.env
 
+chmod 600 /home/$your_user/PostgreSQL_VPS/.env
 chown -R $your_user:$your_user /home/$your_user/PostgreSQL_VPS
 
 #==========================
@@ -97,19 +96,19 @@ docker ps -a
 ip_addr=`wget -q -4 -O- http://icanhazip.com`
 echo
 echo "=============================================================="
-echo "===       PgAdmin по адресу: http://$ip_addr:5050      ==="
-echo "===         Add a new server in PgAdmin:                   ==="
-echo "=== Host name/address: $ip_addr                        ==="
-echo "=== Port as 'POSTGRES_PORT', by default: '5432'            ==="
-echo "=== Username as 'POSTGRES_USER' ['postgres' ]: $POSTGRES_USER    ==="
-echo "=== Password as 'POSTGRES_PASSWORD' ['changeme']: $POSTGRES_PASSWORD ==="
+echo "===       PgAdmin по адресу: http://$ip_addr:5050      "
+echo "===         Add a new server in PgAdmin:                   "
+echo "=== Host name/address: $ip_addr                        "
+echo "=== Port as 'POSTGRES_PORT', by default: '5432'            "
+echo "=== Username as 'POSTGRES_USER' ['postgres' ]: $POSTGRES_USER    "
+echo "=== Password as 'POSTGRES_PASSWORD' ['changeme']: $POSTGRES_PASSWORD "
 echo "=============================================================="
-echo "===       Adminer по адресу: http://$ip_addr:8080      ==="
-echo "=== System: 'PostgreSQL'                                   ==="
-echo "=== Server: $ip_addr                                   ==="
-echo "=== Username as 'POSTGRES_USER' ['postgres' ]: $POSTGRES_USER    ==="
-echo "=== Password as 'POSTGRES_PASSWORD' ['changeme']: $POSTGRES_PASSWORD ==="
-echo "=== Database: 'postgres' или пусто                         ==="
+echo "===       Adminer по адресу: http://$ip_addr:8080      "
+echo "=== System: 'PostgreSQL'                                   "
+echo "=== Server: $ip_addr                                   "
+echo "=== Username as 'POSTGRES_USER' ['postgres' ]: $POSTGRES_USER    "
+echo "=== Password as 'POSTGRES_PASSWORD' ['changeme']: $POSTGRES_PASSWORD "
+echo "=== Database: 'postgres' или пусто                         "
 echo "=============================================================="
 echo
 echo "======================================================="
