@@ -78,8 +78,8 @@ else
 fi
 
 echo "POSTGRES_PORT=5432" >> /home/$your_user/PostgreSQL_VPS/.env
-echo "ADMINER_PORT=18080" >> /home/$your_user/PostgreSQL_VPS/.env
-echo "PGADMIN_PORT=15050" >> /home/$your_user/PostgreSQL_VPS/.env
+echo "ADMINER_PORT=8080" >> /home/$your_user/PostgreSQL_VPS/.env
+echo "PGADMIN_PORT=5050" >> /home/$your_user/PostgreSQL_VPS/.env
 
 chown -R $your_user:$your_user /home/$your_user/PostgreSQL_VPS
 
