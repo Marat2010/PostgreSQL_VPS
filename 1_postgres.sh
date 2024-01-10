@@ -52,12 +52,13 @@ docker compose version
 #==========================
 echo
 echo "=== Копирование 'docker-compose.yml' ==="
-git clone https://github.com/Marat2010/PostgreSQL_VPS
-mv -f PostgreSQL_VPS /home/$your_user/
+mkdir /home/$your_user/PostgreSQL_VPS
+wget -O /home/$your_user/PostgreSQL_VPS/docker-compose.yml https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/master/docker-compose.yml
+wget -O /home/$your_user/PostgreSQL_VPS/.env_example https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/master/.env_example
 #==========================
 echo
 echo "=== Формирование переменных окружения ==="
-cp /home/$your_user/PostgreSQL_VPS/.env_example /home/$your_user/PostgreSQL_VPS/.env
+touch /home/$your_user/PostgreSQL_VPS/.env
 
 echo 
 read -p "=== Задать имя пользователя БД [postgres]: " POSTGRES_USER
