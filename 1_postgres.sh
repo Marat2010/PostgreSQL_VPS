@@ -18,10 +18,10 @@ adduser --gecos "" $your_user
 echo
 usermod -aG sudo $your_user
 echo "=== Пользователь '$your_user' в группе 'sudo' ==="
-
+echo
 # === Инструкция Install Docker: https://docs.docker.com/engine/install/ubuntu/ ===
 echo "=== Установка Docker, Docker-compose ==="
-
+echo
 # Add Docker's official GPG key:
 sudo apt-get update
 sudo apt-get -y install ca-certificates curl gnupg
@@ -101,14 +101,14 @@ echo "===       PgAdmin по адресу: http://$ip_addr:5050      ==="
 echo "===         Add a new server in PgAdmin:                   ==="
 echo "=== Host name/address: $ip_addr                        ==="
 echo "=== Port as 'POSTGRES_PORT', by default: '5432'            ==="
-echo "=== Username as 'POSTGRES_USER' ['postgres' ]: $POSTGRES_USER        ==="
-echo "=== Password as 'POSTGRES_PASSWORD' ['changeme']: $POSTGRES_PASSWORD       ==="
+echo "=== Username as 'POSTGRES_USER' ['postgres' ]: $POSTGRES_USER    ==="
+echo "=== Password as 'POSTGRES_PASSWORD' ['changeme']: $POSTGRES_PASSWORD ==="
 echo "=============================================================="
 echo "===       Adminer по адресу: http://$ip_addr:8080      ==="
 echo "=== System: 'PostgreSQL'                                   ==="
 echo "=== Server: $ip_addr                                   ==="
-echo "=== Username as 'POSTGRES_USER' ['postgres' ]: $POSTGRES_USER        ==="
-echo "=== Password as 'POSTGRES_PASSWORD' ['changeme']: $POSTGRES_PASSWORD       ==="
+echo "=== Username as 'POSTGRES_USER' ['postgres' ]: $POSTGRES_USER    ==="
+echo "=== Password as 'POSTGRES_PASSWORD' ['changeme']: $POSTGRES_PASSWORD ==="
 echo "=== Database: 'postgres' или пусто                         ==="
 echo "=============================================================="
 echo
