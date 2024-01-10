@@ -1,10 +1,9 @@
 ## Postgresql, PgAdmin, Adminer, Docker compose, VPS 
 
 ### Описание
-Установка Postgresql & PgAdmin & Adminer через docker compose на VPS/VDS.  
-Проверено на ОС серверов Timeweb, Рег.ру:  Ubuntu 20.04, Ubuntu 22.04.
+Установка Postgresql & PgAdmin & Adminer через docker compose на **VPS/VDS**.  
 
-  Подключаемся к серверу **`ssh root@xxx.xxx.xxx.xxx (_IP_Addr_)`** и выполняем последовательно команды.    
+  Подключаемся к серверу **`ssh root@xxx.xxx.xxx.xxx (_IP_Addr_)`**.    
 
 1. Выполним команду:  
     ```
@@ -22,11 +21,12 @@
     - Задает имя пользователя БД (по умолчанию **postgres**)  
     - Задает пароль пользователя БД (по умолчанию **changeme**)  
     - Установка и запуск контейнеров: **postgres, adminer, pgadmin**  
-    - Формирует данные для подключения к БД для **adminer, pgadmin**  
+    - Формирует данные для подключения к БД для **adminer** и **pgadmin**  
 
+Тестировался на ОС: Ubuntu 20.04, Ubuntu 22.04 (Timeweb, Рег.ру)
 <hr>
 
-Проверка:  
+Проверка подключения:  
 * PgAdmin по адресу: `http://_IP_Addr_:`**`5050`**  
 * Adminer по адресу: `http://_IP_Addr_:`**`8080`**  
 
