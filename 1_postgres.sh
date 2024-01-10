@@ -69,7 +69,7 @@ else
 fi
 
 echo 
-read -p "=== Задать пароль для БД (не менее 8 символов)[changeme]: " POSTGRES_PASSWORD
+read -p "=== Задать пароль для БД [changeme]: " POSTGRES_PASSWORD
 if [ ! -z $POSTGRES_PASSWORD ]
 then
     echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> /home/$your_user/PostgreSQL_VPS/.env
@@ -101,14 +101,14 @@ echo "===       PgAdmin по адресу: http://$ip_addr:5050      ==="
 echo "===         Add a new server in PgAdmin:                   ==="
 echo "=== Host name/address: $ip_addr                        ==="
 echo "=== Port as 'POSTGRES_PORT', by default: '5432'            ==="
-echo "=== Username as 'POSTGRES_USER', by default: 'postgres'    ==="
-echo "=== Password as 'POSTGRES_PASSWORD', by default 'changeme' ==="
+echo "=== Username as 'POSTGRES_USER' ['postgres' ]: $POSTGRES_USER        ==="
+echo "=== Password as 'POSTGRES_PASSWORD' ['changeme']: $POSTGRES_PASSWORD       ==="
 echo "=============================================================="
 echo "===       Adminer по адресу: http://$ip_addr:8080      ==="
 echo "=== System: 'PostgreSQL'                                   ==="
 echo "=== Server: $ip_addr                                   ==="
-echo "=== Username as 'POSTGRES_USER', by default: 'postgres'    ==="
-echo "=== Password as 'POSTGRES_PASSWORD', by default 'changeme' ==="
+echo "=== Username as 'POSTGRES_USER' ['postgres' ]: $POSTGRES_USER        ==="
+echo "=== Password as 'POSTGRES_PASSWORD' ['changeme']: $POSTGRES_PASSWORD       ==="
 echo "=== Database: 'postgres' или пусто                         ==="
 echo "=============================================================="
 echo
