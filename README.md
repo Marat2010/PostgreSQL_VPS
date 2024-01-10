@@ -8,9 +8,7 @@
 
 1. Выполним команду:  
     ```
-    wget -O ./1_postgres.sh https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/master/1_postgres.sh 
-&& chmod +x 1_postgres.sh 
-&& ./1_postgres.sh
+    wget -O ./1_postgres.sh https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/master/1_postgres.sh && chmod +x 1_postgres.sh && ./1_postgres.sh
     ```
 Команда скопирует скрипт, сделает его исполняемым и запустит.  
 
