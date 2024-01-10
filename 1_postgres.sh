@@ -54,6 +54,33 @@ echo
 echo "=== Копирование 'docker-compose.yml' ==="
 git clone https://github.com/Marat2010/PostgreSQL_VPS
 mv PostgreSQL_VPS /home/$your_user/
+#==========================
+echo
+echo "=== Формирование переменных окружения ==="
+cp /home/$your_user/PostgreSQL_VPS/.env_example /home/$your_user/PostgreSQL_VPS/.env
+
+echo 
+read -p "=== Задать имя пользователя БД [postgres]: " POSTGRES_USER
+if [ ! -z $POSTGRES_USER ]
+then
+    echo "POSTGRES_USER=$POSTGRES_USER" > /home/$your_user/PostgreSQL_VPS/.env
+else
+    echo "POSTGRES_USER=postgres" > /home/$your_user/PostgreSQL_VPS/.env
+fi
+
+echo 
+read -p "=== Задать пароль для БД (не менее 8 символов)[changeme]: " POSTGRES_PASSWORD
+if [ ! -z $POSTGRES_PASSWORD ]
+then
+    echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> /home/$your_user/PostgreSQL_VPS/.env
+else
+    echo "POSTGRES_PASSWORD=changeme" >> /home/$your_user/PostgreSQL_VPS/.env
+fi
+
+echo "POSTGRES_PORT=5432" >> /home/$your_user/PostgreSQL_VPS/.env
+echo "ADMINER_PORT=18080" >> /home/$your_user/PostgreSQL_VPS/.env
+echo "PGADMIN_PORT=15050" >> /home/$your_user/PostgreSQL_VPS/.env
+
 chown -R $your_user:$your_user /home/$your_user/PostgreSQL_VPS
 
 #==========================
@@ -84,16 +111,14 @@ echo "=== Username as 'POSTGRES_USER', by default: 'postgres'    ==="
 echo "=== Password as 'POSTGRES_PASSWORD', by default 'changeme' ==="
 echo "=== Database: 'postgres' или пусто                         ==="
 echo "=============================================================="
-
 echo
 echo "======================================================="
-echo "===    Для смены настроек отредактируйте файл:      ==="
-echo "===      /home/$your_user/PostgreSQL_VPS/.env            ==="
-echo "=== Остановите все контейнеры:                      ==="
-echo "===      $ docker compose down                      ==="
-echo "=== Перейдите в папку с файлом 'docker-compose.yml' ==="
-echo "=== Запустите контейнеры:                           ==="
-echo "===      $ docker compose up -d                     ==="
+echo "===    Для смены настроек перейдите в папку:        ==="
+echo "===     cd  /home/$your_user/PostgreSQL_VPS/             ==="
+echo "=== Остановите все контейнеры (БД удалятся!):       ==="
+echo "===      $ docker compose down --volumes            ==="
+echo "=== Отредактируйте файл: .env                       ==="
+echo "=== Запустите контейнеры: $ docker compose up -d    ==="
 echo "======================================================="
 echo
 echo "=== Вход под пользователем '$your_user' ==="
