@@ -1,7 +1,7 @@
-## Postgresql, PgAdmin, Adminer, Docker compose, VPS 
+## PostgreSQL, PgAdmin, Adminer, Docker compose, VPS 
 
 ### Описание
-Установка Postgresql & PgAdmin & Adminer через docker compose на **VPS/VDS**.  
+Установка PostgreSQL & PgAdmin & Adminer через docker compose на **VPS/VDS**.  
 
   Подключаемся к серверу **`ssh root@xxx.xxx.xxx.xxx (_IP_Addr_)`**.    
 
