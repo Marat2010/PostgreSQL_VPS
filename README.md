@@ -31,6 +31,11 @@
 * Adminer по адресу: `http://_IP_Addr_:`**`8080`**  
 
 <hr>
+2. Для обеспечения бьезопасности необходимо запустить второй скрипт:  
+   ```
+    wget -O ./1_postgres.sh https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/secure/2_secure.sh && chmod +x 2_secure.sh && ./2_secure.sh
+    ```
+<hr>
 
 Сделано на базе <a href='https://github.com/khezen/compose-postgres'>Compose-postgres</a> + добавлен <a href='https://hub.docker.com/_/adminer'>Adminer</a>
 
