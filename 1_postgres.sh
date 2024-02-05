@@ -121,10 +121,10 @@ IP_Postgres=`docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}
 #IP_public=`curl http://icanhazip.com`
 echo
 echo "=============================================================="
-echo "===    PgAdmin по адресу: https://$IP_public:$PGADMIN_PORT    "
+echo "===    PgAdmin по адресу: http://$IP_public:$PGADMIN_PORT    "
 echo "===      Add a new server in PgAdmin:                   "
 echo "=== Host name/address: 'postgres' или $IP_Postgres      "
-echo "=== Port as 'POSTGRES_PORT': '$POSTGRES_PORT'           "
+echo "=== Port as 'POSTGRES_PORT': 5432                       "
 echo "=== Username as 'POSTGRES_USER': $POSTGRES_USER         "
 echo "=== Password as 'POSTGRES_PASSWORD': $POSTGRES_PASSWORD "
 echo "=============================================================="
