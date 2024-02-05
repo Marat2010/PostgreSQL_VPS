@@ -101,17 +101,9 @@ echo "POSTGRES_PORT=$POSTGRES_PORT" >> /home/$your_user/PostgreSQL_VPS/.env
 echo "PGADMIN_PORT=$PGADMIN_PORT" >> /home/$your_user/PostgreSQL_VPS/.env
 echo "ADMINER_PORT=$ADMINER_PORT" >> /home/$your_user/PostgreSQL_VPS/.env
 
-echo "PGADMIN_ENABLE_TLS=1" >> /home/$your_user/PostgreSQL_VPS/.env
-echo "PGADMIN_LISTEN_ADDRESS=0.0.0.0" >> /home/$your_user/PostgreSQL_VPS/.env
-
 chmod 600 /home/$your_user/PostgreSQL_VPS/.env
 chown -R $your_user:$your_user /home/$your_user/PostgreSQL_VPS
-#==========================
-# Формирование самоподписанных сертификатов для PgAdmin
-IP_public=`wget -q -4 -O- http://icanhazip.com`
-mkdir /home/$your_user/PostgreSQL_VPS/pgadmin_certs
-sudo openssl req -newkey rsa:2048 -sha256 -nodes -keyout /home/$your_user/PostgreSQL_VPS/pgadmin_certs/server.key -x509 -days 365 -out /home/$your_user/PostgreSQL_VPS/pgadmin_certs/server.cert -subj "/C=RU/ST=RT/L=KAZAN/O=Home/CN=$IP_public"
-sudo chmod 640 /home/$your_user/PostgreSQL_VPS/pgadmin_certs/server.key
+
 #==========================
 # === Инструкция Postgresql & PgAdmin powered by compose: https://github.com/khezen/compose-postgres ===
 echo
