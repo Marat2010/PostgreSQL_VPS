@@ -1,13 +1,11 @@
-# https://github.com/khezen/compose-postgres
+# Use postgres/example user/password credentials
 version: '3.5'
 
 services:
-
+#--------------------------------
   postgres:
     container_name: postgres_cont
     image: postgres:16.1-alpine
-#    image: postgres
-#    image: postgres:12.6-alpine
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
@@ -16,44 +14,64 @@ services:
       - postgres:/data/postgres
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
-#      - "5433:5432"
     networks:
-      - net_postgres
+      net_postgres:
+        ipv4_address: 172.100.0.2
     restart: unless-stopped
-
-  adminer:
-    container_name: adminer_cont
-    image: adminer:4.8.1-standalone
-#    image: adminer
-    depends_on: 
-      - postgres
-    ports:
-      - "${ADMINER_PORT:-8080}:8080"
-    networks:
-      - net_postgres
-    restart: unless-stopped
-
+#--------------------------------
   pgadmin:
     container_name: pgadmin_cont
-    image: dpage/pgadmin4:8.1
-#    image: dpage/pgadmin4
+    image: dpage/pgadmin4:8.2
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_ENABLE_TLS: ${PGADMIN_ENABLE_TLS:-1}
+      PGADMIN_LISTEN_ADDRESS: ${PGADMIN_LISTEN_ADDRESS:-0.0.0.0}
     volumes:
        - pgadmin:/var/lib/pgadmin
+       - ./pgadmin_certs/server.cert:/certs/server.cert
+       - ./pgadmin_certs/server.key:/certs/server.key
     ports:
-      - "${PGADMIN_PORT:-5050}:80"
+      - "${PGADMIN_PORT:-5050}:443"
     networks:
-      - net_postgres
+      net_postgres:
+        ipv4_address: 172.100.0.3
     restart: unless-stopped
-
+#    depends_on: 
+#      - postgres
+#--------------------------------
+  adminer:
+    container_name: adminer_cont
+    image: adminer:4.8.1-standalone
+    environment:
+      ADMINER_DESIGN: nette
+    volumes:
+      - adminer:/var/www/html
+    ports:
+      - "${ADMINER_PORT:-8080}:8080"
+    networks:
+      net_postgres:
+        ipv4_address: 172.100.0.4
+    restart: unless-stopped
+#    depends_on: 
+#      - postgres
+#------------------------------
 networks:
   net_postgres:
     driver: bridge
-
+    ipam:
+     config:
+       - subnet: 172.100.0.0/24
+         gateway: 172.100.0.1
+#------------------------------
 volumes:
     postgres:
+    adminer:
     pgadmin:
 
+#=====================================
+#    image: postgres:12.6-alpine
+#      - "${PGADMIN_PORT:-5050}:80"
+#    image: adminer
+#      - net_postgres

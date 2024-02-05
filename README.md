@@ -7,7 +7,7 @@
 
 1. Выполним команду:  
     ```
-    wget -O ./1_postgres.sh https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/master/1_postgres.sh && chmod +x 1_postgres.sh && ./1_postgres.sh
+    wget -O ./1_postgres.sh https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/secure/1_postgres.sh && chmod +x 1_postgres.sh && ./1_postgres.sh
     ```
 
     Команда скопирует скрипт, сделает его исполняемым и запустит.  
@@ -20,6 +20,9 @@
     - Копирование **'docker-compose.yml'**  
     - Задает имя пользователя БД (по умолчанию **postgres**)  
     - Задает пароль к БД (по умолчанию **changeme**)  
+    - Задает порт PostgreSQL (по умолчанию **5432**)  
+    - Задает порт pgAdmin-а (по умолчанию **5050**)  
+    - Задает порт Adminer-а (по умолчанию **8080**)  
     - Запуск контейнеров: **postgres, adminer, pgadmin**  
     - Данные для подключения к БД для **adminer** и **pgadmin**  
 
@@ -32,7 +35,7 @@
 
 <hr>
 
-2. Для обеспечения бьезопасности необходимо запустить второй скрипт:  
+2. Для обеспечения безопасности необходимо запустить второй скрипт:  
 
     ```
     wget -O ./1_postgres.sh https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/secure/2_secure.sh && chmod +x 2_secure.sh && ./2_secure.sh

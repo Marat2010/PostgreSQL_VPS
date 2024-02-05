@@ -1,20 +1,27 @@
 #!/bin/bash
 
-docker_Adminer_name="adminer_cont"
-docker_PgAdmin_name="pgadmin_cont"
-docker_Postgres_name="postgres_cont"
+Container_Postgres_name="postgres_cont"
+Container_PgAdmin_name="pgadmin_cont"
+Container_Adminer_name="adminer_cont"
 
-ip_user=`who am i --ips|awk '{print $5}'`
-docker_network=`docker network ls |grep net_postgres |awk '{print $2}'`
-ip_host_docker=`docker inspect -f '{{range.IPAM.Config}}{{.Gateway}}{{end}}' $docker_network`
-ip_Adminer=`docker exec $docker_Adminer_name hostname -i`
-ip_PgAdmin=`docker exec $docker_PgAdmin_name hostname -i`
-ip_Postgres=`docker exec $docker_Postgres_name hostname -i`
+#IP_public=`hostname -I | cut -d' ' -f1`
+IP_public=`curl http://icanhazip.com`
+IP_user=`who am i --ips|awk '{print $5}'`
+Docker_network=`docker network ls |grep net_postgres |awk '{print $2}'`
+IP_host_docker=`docker inspect -f '{{range.IPAM.Config}}{{.Gateway}}{{end}}' $Docker_network`
 
-echo "IP Адрес пользователя: $ip_user"
-echo "IP Адрес Adminer-a: $ip_Adminer"
-echo "IP Адрес PgAdmin-a: $ip_PgAdmin"
-echo "IP Адрес Postgres-a: $ip_Postgres"
+IP_Postgres=`docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $Container_Postgres_name`
+IP_PgAdmin=`docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $Container_PgAdmin_name`
+IP_Adminer=`docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $Container_Adminer_name`
+
+Port_Postgres=`ps -ax |grep docker |grep $IP_Postgres |grep 0.0.0.0 |awk '{print $11}' $Container_Postgres_name`
+Port_PgAdmin=`ps -ax |grep docker |grep $IP_PgAdmin |grep 0.0.0.0 |awk '{print $11}' $Container_PgAdmin_name`
+Port_Adminer=`ps -ax |grep docker |grep $IP_Adminer |grep 0.0.0.0 |awk '{print $11}' $Container_Adminer_name`
+
+echo "IP Адрес пользователя: $IP_user"
+echo "IP:Port PostgreSQL: $IP_Postgres:$Port_Postgres"
+echo "IP:Port PgAdmin-a: $IP_PgAdmin:$Port_PgAdmin"
+echo "IP:Port Adminer-a: $IP_Adminer:$Port_Adminer"
 
 #============================================
 echo 
@@ -31,9 +38,16 @@ if [ "$change_passwd_BD" == "y" ]; then
         POSTGRES_PASSWORD="changeme"
     fi 
 
-    docker exec  postgres_cont su - $POSTGRES_USER -c "psql -U $POSTGRES_USER -d $POSTGRES_USER -c \"alter user $POSTGRES_USER with password '$POSTGRES_PASSWORD';\""
+    docker exec postgres_cont su - $POSTGRES_USER -c "psql -U $POSTGRES_USER -d $POSTGRES_USER -c \"alter user $POSTGRES_USER with password '$POSTGRES_PASSWORD';\""
     echo "== Пользователь БД: $POSTGRES_USER , пароль: $POSTGRES_PASSWORD =="
 fi
+
+#============================================
+# Перевод PgAdmin на HTTPS порт 443 (IPTABLES)
+
+mkdir ./pgadmin_certs
+sudo openssl req -newkey rsa:2048 -sha256 -nodes -keyout ./pgadmin_certs/server.key -x509 -days 365 -out ./pgadmin_certs/server.cert -subj "/C=RU/ST=RT/L=KAZAN/O=Home/CN=$IP_public"
+sudo chmod 640 ./pgadmin_certs/server.key
 
 #============================================
 echo 
@@ -45,7 +59,7 @@ if [ "$close_external_access" == "y" ]; then
     sudo cp $path_Postgres/postgresql.conf $path_Postgres/postgresql.conf_all.bak
 
     listen_addresses_old="listen_addresses = '\*'"
-    listen_addresses_new="listen_addresses = '$ip_Postgres'"
+    listen_addresses_new="listen_addresses = '$IP_Postgres'"
 
     sudo sed -i -e "s/$listen_addresses_old/$listen_addresses_new/g" $path_Postgres/postgresql.conf
 
@@ -59,17 +73,22 @@ if [ "$close_external_access" == "y" ]; then
 
     echo "host  all  all  127.0.0.1/32  trust" | sudo tee -a $path_Postgres/pg_hba.conf
     echo "host  replication all 127.0.0.1/32  trust" | sudo tee -a $path_Postgres/pg_hba.conf
-    echo "host all all $ip_Adminer/32 scram-sha-256" | sudo tee -a $path_Postgres/pg_hba.conf
-    echo "host all all $ip_PgAdmin/32 scram-sha-256" | sudo tee -a $path_Postgres/pg_hba.conf
-#    echo "host all all $ip_host_docker/32 scram-sha-256" | sudo tee -a $path_Postgres/pg_hba.conf
+    echo "host all all $IP_Adminer/32 scram-sha-256" | sudo tee -a $path_Postgres/pg_hba.conf
+    echo "host all all $IP_PgAdmin/32 scram-sha-256" | sudo tee -a $path_Postgres/pg_hba.conf
+    echo "host all all $IP_host_docker/32 scram-sha-256" | sudo tee -a $path_Postgres/pg_hba.conf
     echo "" | sudo tee -a $path_Postgres/pg_hba.conf
 
     echo "== В файле 'pg_hba.conf': =="
     sudo cat $path_Postgres/pg_hba.conf |grep "host "
 
-    docker restart $docker_Postgres_name
+    docker restart $Container_Postgres_name
+
+    #--------------------------------------------------
+    # Закрыть доступ к СУБД Postgres через IPTABLES 
+    pass
 
 fi
+
 #============================================
 echo 
 read -p "=== Ограничить доступ к PgAdmin-у и Adminer-у только во время подключения по SSH? [y/N]: " restrict_tools
@@ -86,8 +105,34 @@ if [ "$restrict_tools" == "y" ]; then
     echo "if [ -f ~/.tools_stop.sh ]; then" >> ~/.bash_logout
     echo "    . ~/.tools_stop.sh" >> ~/.bash_logout
     echo "fi" >> ~/.bash_logout 
+
+    #--------------------------------------------------
+    echo 
+    read -p "=== Ограничить доступ к PgAdmin-у и Adminer-у только по вашему IP адресу подключения? [y/N]: " restrict_IP
+    if [ "$restrict_IP" == "y" ]; then  
+        # Ограничить по IP для PgAdmin и Adminer через IPTABLES    
+        pass
+    fi
 fi
 
+#============================================
+#wget http://ipecho.net/plain -O - -q
+#curl http://icanhazip.com
+#curl http://ifconfig.me/ip
+#============================================
+#IP_Postgres=`docker exec $Container_Postgres_name hostname -i`
+#IP_PgAdmin=`docker exec $Container_PgAdmin_name hostname -i`
+#IP_Adminer=`docker exec $Container_Adminer_name hostname -i`
+#============================================
+#openssl req -newkey rsa:2048 -sha256 -nodes -keyout 94.241.139.33.self.key -x509 -days 365 -out 94.241.139.33.self.crt -subj "/C=RU/ST=RT/L=KAZAN/O=Home/CN=94.241.139.33"
+#============================================
+#wget -q -4 -O- http://icanhazip.com
+#============================================
+#Port_PgAdmin=`docker inspect -f '{{range.HostConfig.PortBindings}}{{.HostPort}}{{end}}' $Container_PgAdmin_name` -не работает
+#port_pg="$(docker compose port pgadmin 443)"  => 0.0.0.0:55050  - рабочий
+#echo "${port_pg##*:}"   =>  55050
+#docker ps -q | xargs -n1 docker port |grep 55050
+#============================================
 #============================================
 #============================================
 #if [ -f ~/.tools ]; then
@@ -104,9 +149,9 @@ fi
 
 #echo "host  all  all  127.0.0.1/32  trust" >> $path_Postgres/pg_hba.conf
 #echo "host  replication all 127.0.0.1/32  trust" >> $path_Postgres/pg_hba.conf
-#echo "host all all $ip_Adminer/32 scram-sha-256" >> $path_Postgres/pg_hba.conf
-#echo "host all all $ip_PgAdmin/32 scram-sha-256" >> $path_Postgres/pg_hba.conf
-#echo "host all all $ip_host_docker/32 scram-sha-256" >> $p
+#echo "host all all $IP_Adminer/32 scram-sha-256" >> $path_Postgres/pg_hba.conf
+#echo "host all all $IP_PgAdmin/32 scram-sha-256" >> $path_Postgres/pg_hba.conf
+#echo "host all all $IP_host_docker/32 scram-sha-256" >> $p
 #sudo ls -al $path_Postgres/postgresql*
 #sed -i -e "/=====/d" $path_Postgres/postgresql.conf
 
@@ -138,14 +183,14 @@ fi
 
 #SSH_CLIENT=178.205.48.250 60613 22
 #SSH_CONNECTION=178.205.48.250 60613 94.241.139.33 22
-#ip_user=`echo $SSH_CLIENT | awk '{print $5}' `
-#ip_user=`echo $SSH_CLIENT | cut -d " " -f1`
+#IP_user=`echo $SSH_CLIENT | awk '{print $5}' `
+#IP_user=`echo $SSH_CLIENT | cut -d " " -f1`
 
 
 
 #----------------------
 #=====================================
-#ip_user=`who a mi| cut -d"(" -f2 |cut -d")" -f1`
+#IP_user=`who a mi| cut -d"(" -f2 |cut -d")" -f1`
 #docker_postgres_name=`docker ps -a |grep 5432 |awk {'print $12'}`
 #docker_postgres_id=`docker ps -aqf "name=postgres"`
 #docker_postgres_state=`docker ps -a |grep 5432 |awk {'print $7'}`

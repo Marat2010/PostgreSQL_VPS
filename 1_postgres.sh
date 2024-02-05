@@ -53,36 +53,65 @@ docker compose version
 echo
 echo "=== Копирование 'docker-compose.yml' ==="
 mkdir /home/$your_user/PostgreSQL_VPS
-wget -O /home/$your_user/PostgreSQL_VPS/docker-compose.yml https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/master/docker-compose.yml
-wget -O /home/$your_user/PostgreSQL_VPS/.env_example https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/master/.env_example
+wget -O /home/$your_user/PostgreSQL_VPS/docker-compose.yml https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/secure/docker-compose.yml
+wget -O /home/$your_user/PostgreSQL_VPS/.env_example https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/secure/.env_example
 #==========================
 echo
 echo "=== Формирование переменных окружения ==="
 touch /home/$your_user/PostgreSQL_VPS/.env
-
+#--------------------------
 echo 
 read -p "=== Задать имя пользователя БД [postgres]: " POSTGRES_USER
 if [ -z $POSTGRES_USER ]
 then
     POSTGRES_USER="postgres"
 fi
-
+#--------------------------
 echo 
 read -p "=== Задать пароль для БД [changeme]: " POSTGRES_PASSWORD
 if [ -z $POSTGRES_PASSWORD ]
 then
     POSTGRES_PASSWORD="changeme"
 fi
-
+#--------------------------
+echo 
+read -p "=== Порт PostgreSQL [5432]: " POSTGRES_PORT
+if [ -z $POSTGRES_PORT ]
+then
+    POSTGRES_PORT=5432
+fi
+#--------------------------
+echo 
+read -p "=== Порт pgAdmin-а [5050]: " PGADMIN_PORT
+if [ -z $PGADMIN_PORT ]
+then
+    PGADMIN_PORT=5050
+fi
+#--------------------------
+echo 
+read -p "=== Порт Adminer-а [8080]: " ADMINER_PORT
+if [ -z $ADMINER_PORT ]
+then
+    ADMINER_PORT=8080
+fi
+#--------------------------
 echo "POSTGRES_USER=$POSTGRES_USER" > /home/$your_user/PostgreSQL_VPS/.env
 echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> /home/$your_user/PostgreSQL_VPS/.env
-echo "POSTGRES_PORT=5432" >> /home/$your_user/PostgreSQL_VPS/.env
-echo "ADMINER_PORT=8080" >> /home/$your_user/PostgreSQL_VPS/.env
-echo "PGADMIN_PORT=5050" >> /home/$your_user/PostgreSQL_VPS/.env
+echo "POSTGRES_PORT=$POSTGRES_PORT" >> /home/$your_user/PostgreSQL_VPS/.env
+echo "PGADMIN_PORT=$PGADMIN_PORT" >> /home/$your_user/PostgreSQL_VPS/.env
+echo "ADMINER_PORT=$ADMINER_PORT" >> /home/$your_user/PostgreSQL_VPS/.env
+
+echo "PGADMIN_ENABLE_TLS=1" >> /home/$your_user/PostgreSQL_VPS/.env
+echo "PGADMIN_LISTEN_ADDRESS=0.0.0.0" >> /home/$your_user/PostgreSQL_VPS/.env
 
 chmod 600 /home/$your_user/PostgreSQL_VPS/.env
 chown -R $your_user:$your_user /home/$your_user/PostgreSQL_VPS
-
+#==========================
+# Формирование самоподписанных сертификатов для PgAdmin
+IP_public=`wget -q -4 -O- http://icanhazip.com`
+mkdir /home/$your_user/PostgreSQL_VPS/pgadmin_certs
+sudo openssl req -newkey rsa:2048 -sha256 -nodes -keyout /home/$your_user/PostgreSQL_VPS/pgadmin_certs/server.key -x509 -days 365 -out /home/$your_user/PostgreSQL_VPS/pgadmin_certs/server.cert -subj "/C=RU/ST=RT/L=KAZAN/O=Home/CN=$IP_public"
+sudo chmod 640 /home/$your_user/PostgreSQL_VPS/pgadmin_certs/server.key
 #==========================
 # === Инструкция Postgresql & PgAdmin powered by compose: https://github.com/khezen/compose-postgres ===
 echo
@@ -94,22 +123,25 @@ echo "=== Установка ЗАВЕРШЕНА! ==="
 echo "=== Запущенные контейнеры: ==="
 docker ps -a
 
-ip_addr=`wget -q -4 -O- http://icanhazip.com`
+IP_public=`wget -q -4 -O- http://icanhazip.com`
+Container_Postgres_name="postgres_cont"
+IP_Postgres=`docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $Container_Postgres_name`
+#IP_public=`curl http://icanhazip.com`
 echo
 echo "=============================================================="
-echo "===    PgAdmin по адресу: http://$ip_addr:5050      "
+echo "===    PgAdmin по адресу: https://$IP_public:$PGADMIN_PORT    "
 echo "===      Add a new server in PgAdmin:                   "
-echo "=== Host name/address: $ip_addr                        "
-echo "=== Port as 'POSTGRES_PORT', by default: '5432'            "
-echo "=== Username as 'POSTGRES_USER' ['postgres' ]: $POSTGRES_USER    "
-echo "=== Password as 'POSTGRES_PASSWORD' ['changeme']: $POSTGRES_PASSWORD "
+echo "=== Host name/address: 'postgres' или $IP_Postgres      "
+echo "=== Port as 'POSTGRES_PORT': '$POSTGRES_PORT'           "
+echo "=== Username as 'POSTGRES_USER': $POSTGRES_USER         "
+echo "=== Password as 'POSTGRES_PASSWORD': $POSTGRES_PASSWORD "
 echo "=============================================================="
-echo "===    Adminer по адресу: http://$ip_addr:8080      "
-echo "=== System: 'PostgreSQL'                                   "
-echo "=== Server: $ip_addr                                   "
-echo "=== Username as 'POSTGRES_USER' ['postgres' ]: $POSTGRES_USER    "
-echo "=== Password as 'POSTGRES_PASSWORD' ['changeme']: $POSTGRES_PASSWORD "
-echo "=== Database: 'postgres' или пусто                         "
+echo "===    Adminer по адресу: http://$IP_public:$ADMINER_PORT     "
+echo "=== System: 'PostgreSQL'                                "
+echo "=== Server: 'postgres' или $IP_Postgres                 "
+echo "=== Username as 'POSTGRES_USER': $POSTGRES_USER         "
+echo "=== Password as 'POSTGRES_PASSWORD': $POSTGRES_PASSWORD "
+echo "=== Database: пусто                                     "
 echo "=============================================================="
 echo
 echo "======================================================="
