@@ -38,7 +38,7 @@
 2. Для обеспечения безопасности необходимо запустить второй скрипт:  
 
     ```
-    wget -O ./1_postgres.sh https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/secure/2_secure.sh && chmod +x 2_secure.sh && ./2_secure.sh
+    wget -O ./2_secure.sh https://raw.githubusercontent.com/Marat2010/PostgreSQL_VPS/secure/2_secure.sh && chmod +x 2_secure.sh && ./2_secure.sh
     ```
 
 <hr>
