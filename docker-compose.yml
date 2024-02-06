@@ -1,4 +1,3 @@
-# Use postgres/example user/password credentials
 version: '3.5'
 
 services:
@@ -27,7 +26,6 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
       PGADMIN_ENABLE_TLS: ${PGADMIN_ENABLE_TLS:-}
-#      PGADMIN_ENABLE_TLS: ${PGADMIN_ENABLE_TLS:-1}
       PGADMIN_LISTEN_ADDRESS: ${PGADMIN_LISTEN_ADDRESS:-0.0.0.0}
     volumes:
        - pgadmin:/var/lib/pgadmin
@@ -35,13 +33,10 @@ services:
        - ./pgadmin_certs/server.key:/certs/server.key
     ports:
       - "${PGADMIN_PORT:-5050}:80"
-#      - "${PGADMIN_PORT:-5050}:443"
     networks:
       net_postgres:
         ipv4_address: 172.100.0.3
     restart: unless-stopped
-#    depends_on: 
-#      - postgres
 #--------------------------------
   adminer:
     container_name: adminer_cont
@@ -56,8 +51,6 @@ services:
       net_postgres:
         ipv4_address: 172.100.0.4
     restart: unless-stopped
-#    depends_on: 
-#      - postgres
 #------------------------------
 networks:
   net_postgres:
@@ -77,3 +70,10 @@ volumes:
 #      - "${PGADMIN_PORT:-5050}:80"
 #    image: adminer
 #      - net_postgres
+#--------------------------------------
+#    depends_on: 
+#      - postgres
+#--------------------------------------
+#      - "${PGADMIN_PORT:-5050}:443"
+#      PGADMIN_ENABLE_TLS: ${PGADMIN_ENABLE_TLS:-1}
+#--------------------------------------
