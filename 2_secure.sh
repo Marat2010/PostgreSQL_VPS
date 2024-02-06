@@ -44,14 +44,14 @@ fi
 
 #============================================
 # Перевод PgAdmin на HTTPS порт 443 (IPTABLES)
-echo "PGADMIN_ENABLE_TLS=1" >> /home/$your_user/PostgreSQL_VPS/.env
-echo "PGADMIN_LISTEN_ADDRESS=0.0.0.0" >> /home/$your_user/PostgreSQL_VPS/.env
+echo "PGADMIN_ENABLE_TLS=1" >> /home/$USER/PostgreSQL_VPS/.env
+echo "PGADMIN_LISTEN_ADDRESS=0.0.0.0" >> /home/$USER/PostgreSQL_VPS/.env
 
 # Формирование самоподписанных сертификатов для PgAdmin
 IP_public=`wget -q -4 -O- http://icanhazip.com`
-mkdir /home/$your_user/PostgreSQL_VPS/pgadmin_certs
-sudo openssl req -newkey rsa:2048 -sha256 -nodes -keyout /home/$your_user/PostgreSQL_VPS/pgadmin_certs/server.key -x509 -days 365 -out /home/$your_user/PostgreSQL_VPS/pgadmin_certs/server.cert -subj "/C=RU/ST=RT/L=KAZAN/O=Home/CN=$IP_public"
-sudo chmod 640 /home/$your_user/PostgreSQL_VPS/pgadmin_certs/server.key
+mkdir /home/$USER/PostgreSQL_VPS/pgadmin_certs
+sudo openssl req -newkey rsa:2048 -sha256 -nodes -keyout /home/$USER/PostgreSQL_VPS/pgadmin_certs/server.key -x509 -days 365 -out /home/$USER/PostgreSQL_VPS/pgadmin_certs/server.cert -subj "/C=RU/ST=RT/L=KAZAN/O=Home/CN=$IP_public"
+sudo chmod 640 /home/$USER/PostgreSQL_VPS/pgadmin_certs/server.key
 
 #============================================
 echo 
